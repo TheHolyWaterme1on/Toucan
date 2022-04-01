@@ -1,7 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Embed
-import random, aiohttp
+import random, aiohttp, re
 
 class fun(commands.Cog):
     def __init__(self, client):
@@ -29,6 +29,34 @@ class fun(commands.Cog):
             await ctx.send(rand.title + ":\n" + rand.url)
         else:
             await ctx.send(embed = embed)
+
+    @commands.command()
+    async def reddit(self, ctx, sub = None):
+        reddit = self.client.reddit
+        if sub:
+            try:
+                get_sub = await reddit.subreddit(sub); rand = await get_sub.random()
+                try: rand.url
+                except:
+                    l = []
+                    async for i in get_sub.hot(limit = 50): l.append(i); rand = random.choice(l)
+            except:
+                await ctx.send("`" + sub + "` is not a valid subreddit")
+            else:
+                description = "[Post](" + rand.url + ") from r/" + sub
+                if hasattr(rand, "post_hint") and ('video' in rand.post_hint): 
+                    await ctx.send(rand.title + ":\n" + rand.url)
+                else:
+                    if rand.selftext: 
+                        description = description + "\n" + rand.selftext
+                    try:
+                        embed = Embed(title = rand.title, description = description, color = nextcord.Color.yellow())
+                        if re.search("\.(png|jpg|gif)", rand.url): embed.set_image(url = rand.url)
+                        await ctx.send(embed = embed)
+                    except:
+                        await ctx.send("Something went wrong with this post, please try again")
+        else:
+            await ctx.send("Proper usage is `?reddit <subreddit>`")
 
     # @commands.command()
     # async def flag(self, ctx):

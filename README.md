@@ -18,8 +18,10 @@
 ### Fun
 - [x] Say
 - [x] Dice Roll
+- [x] ~~Flag quiz~~
 - [x] Reddit command
-- [x] Flag quiz
+- [x] Memes command
+- [x] XKCD command
 ---
 ### Math
 - [ ] Calculator
@@ -30,5 +32,4 @@
 - [x] Dog pictures
 - [x] Cat pictures
 - [x] Duck pictures
-- [x] Memes command
 - [x] David
