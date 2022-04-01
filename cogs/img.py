@@ -1,6 +1,7 @@
 from nextcord.ext import commands
 from nextcord import Embed
-import random, aiohttp
+import random
+import aiohttp
 
 class img(commands.Cog):
     def __init__(self, client):
@@ -9,6 +10,7 @@ class img(commands.Cog):
     async def fetch(link):
         async with aiohttp.ClientSession() as s:
             get = await s.get(link); return await get.json()
+            
     def createEmbed(animal, image):
         return Embed(title = "Here is your " + animal + " picture:", color = random.randint(0, pow(16, 6))).set_image(url = image)
     

@@ -1,10 +1,12 @@
 import nextcord
 from nextcord.ext import commands
-import re, os, asyncpraw
+import re
+import os
+import asyncpraw
 
 cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.slash"]
 ids = [766423223595696198, 921103309526433843]
-command_prefix = '?'; client = commands.Bot(command_prefix)
+COMMAND_PREFIX = '?'; client = commands.Bot(COMMAND_PREFIX)
 client.remove_command('help')
 
 reddit_data = os.environ.get("REDDIT_API_DATA").split(",")
@@ -23,8 +25,8 @@ async def on_ready():
         print("Initialised cog: " + i)
     print('Online')
 
-    for id in ids:
-        guild = client.get_guild(id)
+    for i in ids:
+        guild = client.get_guild(i)
         await guild.rollout_application_commands()
 
 @client.command(name = "ping", aliases = ["pong"])
@@ -33,9 +35,9 @@ async def ping(ctx):
 
 @client.event
 async def on_message(message):
-	if re.search("^<@!?921100533224337489>\s+?prefix", message.content):
-		await message.channel.send("The bot's prefix is `" + command_prefix + "`")
-	await client.process_commands(message)
+    if re.search("^<@!?921100533224337489>\s+?prefix", message.content):
+        await message.channel.send("The bot's prefix is `" + COMMAND_PREFIX + "`")
+    await client.process_commands(message)
 
 @client.command(name = "setstatus", aliases = ["status"])
 async def setstatus(ctx, *, msg = None):

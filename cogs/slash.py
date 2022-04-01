@@ -1,7 +1,9 @@
 import nextcord
 from nextcord import Interaction, Embed
 from nextcord.ext import commands
-import aiohttp, re, random
+import aiohttp
+import re
+import random
 
 class slash(commands.Cog):
     ids = [766423223595696198, 921103309526433843]
@@ -103,7 +105,7 @@ class slash(commands.Cog):
     @nextcord.slash_command(name = "xkcd", description = "Sends an XKCD comic", guild_ids = ids)
     async def xkcd(self, interaction : Interaction, num = nextcord.SlashOption(name = "num", description = "Comic number", required = False, default = random.randint(0, 2000))):
         async with aiohttp.ClientSession() as s:
-            get = await s.get("https://xkcd.com/" + str(num) + "/info.0.json"); 
+            get = await s.get("https://xkcd.com/" + str(num) + "/info.0.json")
         try:
             j = await get.json()
             embed = Embed(title = "XKCD Number " + str(num) + ": " + j["title"]).set_image(url = j["img"])

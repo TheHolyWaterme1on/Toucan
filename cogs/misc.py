@@ -1,7 +1,8 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Embed
-import re, aiohttp
+import re
+import aiohttp
 
 class misc(commands.Cog): 
     def __init__(self, client):
