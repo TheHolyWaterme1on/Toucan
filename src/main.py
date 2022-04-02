@@ -1,8 +1,8 @@
-import nextcord
-from nextcord.ext import commands
 import re
 import os
 import asyncpraw
+import nextcord
+from nextcord.ext import commands
 
 cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.slash"]
 ids = [766423223595696198, 921103309526433843]
@@ -36,7 +36,7 @@ async def ping(ctx):
 
 @client.event
 async def on_message(message):
-    if re.search("^<@!?921100533224337489>\s+?prefix", message.content):
+    if re.search("^<@!?921100533224337489>\\s+?prefix", message.content):
         await message.channel.send("The bot's prefix is `" + COMMAND_PREFIX + "`")
     await client.process_commands(message)
 

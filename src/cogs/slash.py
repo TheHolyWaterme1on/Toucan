@@ -97,7 +97,7 @@ class slash(commands.Cog):
                 if rand.selftext: description = description + "\n" + rand.selftext
                 try:
                     embed = Embed(title = rand.title, description = description, color = nextcord.Color.yellow())
-                    if re.search("\.(png|jpg|gif)", rand.url): embed.set_image(url = rand.url)
+                    if re.search("\\.(png|jpg|gif)", rand.url): embed.set_image(url = rand.url)
                     await interaction.response.send_message(embed = embed)
                 except:
                     await interaction.response.send_message("Something went wrong with this post, please try again")
