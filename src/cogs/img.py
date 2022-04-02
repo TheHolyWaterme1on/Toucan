@@ -7,11 +7,11 @@ class img(commands.Cog):
     def __init__(self, client):
         self.client = client
         
-    async def fetch(link):
+    async def fetch(self, link):
         async with aiohttp.ClientSession() as s:
             get = await s.get(link); return await get.json()
             
-    def createEmbed(animal, image):
+    def createEmbed(self, animal, image):
         return Embed(title = "Here is your " + animal + " picture:", color = random.randint(0, pow(16, 6))).set_image(url = image)
     
     @commands.command()
@@ -20,7 +20,7 @@ class img(commands.Cog):
         ).set_image(url = 'https://cdn.discordapp.com/attachments/802681841864802355/802689768755953704/20210122_175225.jpg')
         await ctx.send(embed = embed)
 
-    @commands.command(name = "dog", aliases = ["woof", "dogs", "doggo"])
+    @commands.command(name = "dog", aliases = ["dogs", "doggo"])
     async def dog(self, ctx):
         dog = await img.fetch('https://dog.ceo/api/breeds/image/random')
         await ctx.send(embed = img.createEmbed("dog", dog['message']))

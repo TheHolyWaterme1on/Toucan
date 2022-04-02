@@ -50,15 +50,19 @@ async def setstatus(ctx, *, msg = None):
 
 @client.command(name = "invite", aliases = ["inv", "createinvite"])
 async def invite(ctx, id = None):
+    async def get_invite(guild_id):
+        for i in client.get_guild(int(guild_id)).channels:
+            if type(i) == nextcord.channel.TextChannel:
+                link = await i.create_invite(max_age = 0, max_uses = 0)
+                return str(link)
     if await client.is_owner(ctx.author):
         try:
-            for i in client.get_guild(int(id)).channels:
-                if type(i) == nextcord.channel.TextChannel:
-                    link = await i.create_invite(max_age = 0, max_uses = 0)
-                    await ctx.send(link)
-                    break
-        except:
-            await ctx.send("Invalid guild ID")
+            l = await get_invite(id)
+            await ctx.send(l)
+        except AttributeError:
+            await ctx.send("Invalid guild ID, bot must be in the server")
+        except nextcord.HTTPException:
+            await ctx.send("Bot could not create invite, guild has no text channels")
 
 @client.command(name = "senddm", aliases = ["dm"])
 async def senddm(ctx, target : nextcord.User, *, msg):
