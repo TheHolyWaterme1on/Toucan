@@ -6,7 +6,7 @@ import re
 import random
 
 class slash(commands.Cog):
-    ids = [766423223595696198, 921103309526433843]
+    ids = [766423223595696198, 921103309526433843, 701127612243902504, 959517813586923590]
     def __init__(self, client):
         self.client = client
 
