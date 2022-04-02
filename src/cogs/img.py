@@ -7,11 +7,11 @@ class img(commands.Cog):
     def __init__(self, client):
         self.client = client
         
-    async def fetch(self, link):
+    async def fetch(link):
         async with aiohttp.ClientSession() as s:
             get = await s.get(link); return await get.json()
             
-    def createEmbed(self, animal, image):
+    def createEmbed(animal, image):
         return Embed(title = "Here is your " + animal + " picture:", color = random.randint(0, pow(16, 6))).set_image(url = image)
     
     @commands.command()

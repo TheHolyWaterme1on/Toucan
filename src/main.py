@@ -49,7 +49,7 @@ async def setstatus(ctx, *, msg = None):
             await ctx.send("Proper usage is `?setstatus <status>`")
 
 @client.command(name = "invite", aliases = ["inv", "createinvite"])
-async def invite(ctx, id = None):
+async def invite(ctx, gid = None):
     async def get_invite(guild_id):
         for i in client.get_guild(int(guild_id)).channels:
             if type(i) == nextcord.channel.TextChannel:
@@ -57,7 +57,7 @@ async def invite(ctx, id = None):
                 return str(link)
     if await client.is_owner(ctx.author):
         try:
-            l = await get_invite(id)
+            l = await get_invite(gid)
             await ctx.send(l)
         except AttributeError:
             await ctx.send("Invalid guild ID, bot must be in the server")
