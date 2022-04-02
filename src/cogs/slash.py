@@ -21,7 +21,7 @@ class slash(commands.Cog):
     @nextcord.slash_command(name = "country", description = "Sends data about a country", guild_ids = ids)
     async def country(self, interaction : Interaction, inp = None):
         async with aiohttp.ClientSession() as s:
-            get = await s.get('https://restcountries.com/v3.1/name/' + inp.lower()); fj = await get.json(); 
+            get = await s.get('https://restcountries.com/v3.1/name/' + inp.lower()); fj = await get.json()
             try:
                 fj = fj[0]
                 await interaction.response.send_message(embed = 

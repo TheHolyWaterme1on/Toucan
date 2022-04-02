@@ -6,7 +6,8 @@ import asyncpraw
 
 cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.slash"]
 ids = [766423223595696198, 921103309526433843]
-COMMAND_PREFIX = '?'; client = commands.Bot(COMMAND_PREFIX)
+COMMAND_PREFIX = '?'
+client = commands.Bot(COMMAND_PREFIX)
 client.remove_command('help')
 
 reddit_data = os.environ.get("REDDIT_API_DATA").split(",")
@@ -52,13 +53,13 @@ async def setstatus(ctx, *, msg = None):
 async def invite(ctx, gid = None):
     async def get_invite(guild_id):
         for i in client.get_guild(int(guild_id)).channels:
-            if type(i) == nextcord.channel.TextChannel:
+            if isinstance(i, nextcord.channel.TextChannel):
                 link = await i.create_invite(max_age = 0, max_uses = 0)
                 return str(link)
     if await client.is_owner(ctx.author):
         try:
-            l = await get_invite(gid)
-            await ctx.send(l)
+            fetched_invite = await get_invite(gid)
+            await ctx.send(fetched_invite)
         except AttributeError:
             await ctx.send("Invalid guild ID, bot must be in the server")
         except nextcord.HTTPException:
