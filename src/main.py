@@ -23,9 +23,6 @@ async def on_ready():
         client.load_extension(i)
         print("Initialised cog: " + i)
     print('Online')
-
-    for i in ids:
-        guild = client.get_guild(i)
-        await guild.rollout_application_commands()
+    client.rollout_application_commands
 
 client.run(os.environ.get("CLIENT_TOKEN"))

@@ -102,9 +102,11 @@ class fun(commands.Cog):
             await ctx.send("Message failed to send, target might have their DMs closed.")
 
     @commands.command()
-    async def xkcd(self, ctx, num = random.randint(0, 2000)):
+    async def xkcd(self, ctx, num = 0):
         async with aiohttp.ClientSession() as s:
-            get = await s.get("https://xkcd.com/" + str(num) + "/info.0.json"); 
+            if not num:
+                num = random.randint(0,2000)
+            get = await s.get("https://xkcd.com/" + str(num) + "/info.0.json")
         try:
             j = await get.json()
             embed = Embed(title = "XKCD Number " + str(num) + ": " + j["title"]).set_image(url = j["img"])

@@ -103,8 +103,10 @@ class slash(commands.Cog):
                     await interaction.response.send_message("Something went wrong with this post, please try again")
                       
     @nextcord.slash_command(name = "xkcd", description = "Sends an XKCD comic", guild_ids = ids)
-    async def xkcd(self, interaction : Interaction, num = nextcord.SlashOption(name = "num", description = "Comic number", required = False, default = random.randint(0, 2000))):
+    async def xkcd(self, interaction : Interaction, num = nextcord.SlashOption(name = "num", description = "Comic number", required = False, default = 0)):
         async with aiohttp.ClientSession() as s:
+            if not num:
+                num = random.randint(0, 2000)
             get = await s.get("https://xkcd.com/" + str(num) + "/info.0.json")
         try:
             j = await get.json()
