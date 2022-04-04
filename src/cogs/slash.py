@@ -47,7 +47,7 @@ class slash(commands.Cog):
             while rand == None:
                 try: 
                     rand = await get_sub.random()
-                except:
+                except Exception:
                     continue
             return Embed(title = rand.title, description = rand.selftext, color = nextcord.Color.random())
         try: 
