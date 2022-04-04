@@ -14,7 +14,7 @@ class fun(commands.Cog):
             await ctx.send(msg)
         else:
             await ctx.send("Proper usage is `?say <message>`")
-    
+
     @commands.command(name = "dice", aliases = ["roll"])
     async def dice(self, ctx, num : int = 6):
         await ctx.send("You rolled a `" + str(random.randint(1,num)) + "`")
@@ -23,7 +23,8 @@ class fun(commands.Cog):
     async def meme(self, ctx):
         reddit = self.client.reddit
         get_sub = await reddit.subreddit("memes"); rand = await get_sub.random()
-        embed = Embed(title = rand.title,  description = "[Post URL](" + rand.url + ")", color = nextcord.Color.yellow()).set_image(url = rand.url
+        embed = Embed(title = rand.title,  description = "[Post URL](" + rand.url + ")", color = nextcord.Color.yellow()
+        ).set_image(url = rand.url
         ).set_footer(text = "Score: " + str(rand.score) + " | Upvote ratio: " + str(int(rand.upvote_ratio * 100)) + "% | Number of comments: " + str(rand.num_comments))
         if hasattr(rand, "post_hint") and ('video' in rand.post_hint):
             await ctx.send(rand.title + ":\n" + rand.url)
@@ -44,10 +45,10 @@ class fun(commands.Cog):
                 await ctx.send("`" + sub + "` is not a valid subreddit")
             else:
                 description = "[Post](" + rand.url + ") from r/" + sub
-                if hasattr(rand, "post_hint") and ('video' in rand.post_hint): 
+                if hasattr(rand, "post_hint") and ('video' in rand.post_hint):
                     await ctx.send(rand.title + ":\n" + rand.url)
                 else:
-                    if rand.selftext: 
+                    if rand.selftext:
                         description = description + "\n" + rand.selftext
                     try:
                         embed = Embed(title = rand.title, description = description, color = nextcord.Color.yellow())
@@ -63,7 +64,8 @@ class fun(commands.Cog):
     #     async with aiohttp.ClientSession() as s:
     #         get = await s.get('https://flagcdn.com/en/codes.json'); fj = await get.json()
     #         x = random.choice(list(fj))
-    #         await ctx.send(embed = Embed(title = "Which territory's flag is this?").set_image(url = "https://flagcdn.com/w320/" + x + ".png"))
+    #         await ctx.send(embed = Embed(title = "Which territory's flag is this?"
+    #           ).set_image(url = "https://flagcdn.com/w320/" + x + ".png"))
     #         def c(m):
     #             return m.author.id == ctx.author.id
     #         fj = await get.json()
