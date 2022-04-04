@@ -38,10 +38,11 @@ class fun(commands.Cog):
             try:
                 get_sub = await reddit.subreddit(sub); rand = await get_sub.random()
                 try: rand.url
-                except:
+                except Exception:
                     l = []
-                    async for i in get_sub.hot(limit = 50): l.append(i); rand = random.choice(l)
-            except:
+                    async for i in get_sub.hot(limit = 50): 
+                        l.append(i); rand = random.choice(l)
+            except Exception:
                 await ctx.send("`" + sub + "` is not a valid subreddit")
             else:
                 description = "[Post](" + rand.url + ") from r/" + sub
@@ -52,7 +53,7 @@ class fun(commands.Cog):
                         description = description + "\n" + rand.selftext
                     try:
                         embed = Embed(title = rand.title, description = description, color = nextcord.Color.yellow())
-                        if re.search("\.(png|jpg|gif)", rand.url): embed.set_image(url = rand.url)
+                        if re.search("\\.(png|jpg|gif)", rand.url): embed.set_image(url = rand.url)
                         await ctx.send(embed = embed)
                     except:
                         await ctx.send("Something went wrong with this post, please try again")
@@ -95,7 +96,7 @@ class fun(commands.Cog):
         while embed == None:
             try: 
                 embed = await get()
-            except:
+            except Exception:
                 continue
         try: 
             await target.send(embed = embed)
@@ -113,7 +114,7 @@ class fun(commands.Cog):
             j = await get.json()
             embed = Embed(title = "XKCD Number " + str(num) + ": " + j["title"]).set_image(url = j["img"])
             await ctx.send(embed = embed)
-        except:
+        except aiohttp.ContentTypeError:
             await ctx.send("Invalid comic number")
 
 def setup(client):
