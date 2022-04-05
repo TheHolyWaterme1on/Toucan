@@ -62,7 +62,7 @@ class slash(commands.Cog):
             "i" : 1, "v" : 5, "x" : 10, "l" : 50, "c" : 100, "d" : 500, "m" : 1000
         }
         num = 0; tl = numeral.lower()
-        if not re.search('i{4}|v{4}|x{4}|l{4}|c{4}|d{4}|m{4}', tl):
+        if not re.search('(?=(.)\1{3})[ivxlcdm]{4}', tl):
             try:
                 for i in range(0, len(tl)):
                     char = tl[i]
