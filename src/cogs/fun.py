@@ -19,8 +19,11 @@ class fun(commands.Cog):
             await ctx.send("Proper usage is `?say <message>`")
 
     @commands.command(name = "dice", aliases = ["roll"])
-    async def dice(self, ctx, num : int = 6):
-        await ctx.send("You rolled a `" + str(random.randint(1,num)) + "`")
+    async def dice(self, ctx, num = 6):
+        try:
+            await ctx.send("You rolled a `" + str(random.randint(1,num)) + "`")
+        except:
+            await ctx.send("Input must be a number")
 
     @commands.command(name = "meme", aliases = ["memes"])
     async def meme(self, ctx):

@@ -37,7 +37,7 @@ class slash(commands.Cog):
                     ).add_field(name = "Is UN Member:", value = str(fj["unMember"])
                     ).set_thumbnail(url = fj["flags"]["png"]).set_footer(text = "Demonyms: Male: " + fj["demonyms"]["eng"]["m"] + " | Female: " + fj["demonyms"]["eng"]["f"])
                 )
-            except:
+            except BaseException:
                 await interaction.response.send_message("Something went wrong, make sure you spelled the country name correctly.\nDue to API issues, some countries are unavailable.")
 
     @nextcord.slash_command(name = "joe", description = "...", guild_ids = ids)
@@ -55,7 +55,7 @@ class slash(commands.Cog):
             await interaction.response.send_message("Message sent")
         except:
             await interaction.response.send_message("Message failed to send, target might have their DMs closed.")
-            
+
     @nextcord.slash_command(name = "roman", description = "Converts Roman numerals to integers", guild_ids = ids)
     async def roman(self, interaction : Interaction, numeral : str):
         conv = {
@@ -77,7 +77,7 @@ class slash(commands.Cog):
                 await interaction.response.send_message("Error: `" + numeral + "` is not a valid numeral")
         else:
             await interaction.response.send_message("`" + numeral + "` is not a valid numeral")
-            
+
     @nextcord.slash_command(name = "reddit", description = "Gets a random post from a subreddit", guild_ids = ids)
     async def reddit(self, interaction : Interaction,  sub = nextcord.SlashOption(name = "subreddit", description = "Subreddit name", required = True)):
         reddit = self.client.reddit
