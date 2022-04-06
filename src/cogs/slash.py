@@ -71,7 +71,7 @@ class slash(commands.Cog):
                     else:
                         num += conv[char]
                 if num > 4000:
-                    raise Exception
+                    raise BaseException
                 await interaction.response.send_message("Equals: `" + str(num) + "`")
             except:
                 await interaction.response.send_message("Error: `" + numeral + "` is not a valid numeral")
@@ -107,12 +107,14 @@ class slash(commands.Cog):
         async with aiohttp.ClientSession() as s:
             if not num:
                 num = random.randint(0, 2000)
-            get = await s.get("https://xkcd.com/" + str(num) + "/info.0.json")
         try:
+            get = await s.get("https://xkcd.com/" + str(num) + "/info.0.json")
             j = await get.json()
             embed = Embed(title = "XKCD Number " + str(num) + ": " + j["title"]).set_image(url = j["img"])
             await interaction.response.send_message(embed = embed)
-        except:
+        except commands.errors.BadArgument:
+            await interaction.response.send_message("Proper usage is `?xkcd <comic number>`")
+        except aiohttp.ContentTypeError:
             await interaction.response.send_message("Invalid comic number")
 
 def setup(client):

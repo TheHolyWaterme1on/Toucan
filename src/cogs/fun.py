@@ -1,7 +1,10 @@
+import random
+import aiohttp
+import re
 import nextcord
 from nextcord.ext import commands
 from nextcord import Embed
-import random, aiohttp, re
+from asyncprawcore import exceptions
 
 class fun(commands.Cog):
     def __init__(self, client):
@@ -18,14 +21,15 @@ class fun(commands.Cog):
     @commands.command(name = "dice", aliases = ["roll"])
     async def dice(self, ctx, num : int = 6):
         await ctx.send("You rolled a `" + str(random.randint(1,num)) + "`")
-    
+
     @commands.command(name = "meme", aliases = ["memes"])
     async def meme(self, ctx):
         reddit = self.client.reddit
         get_sub = await reddit.subreddit("memes"); rand = await get_sub.random()
         embed = Embed(title = rand.title,  description = "[Post URL](" + rand.url + ")", color = nextcord.Color.yellow()
         ).set_image(url = rand.url
-        ).set_footer(text = "Score: " + str(rand.score) + " | Upvote ratio: " + str(int(rand.upvote_ratio * 100)) + "% | Number of comments: " + str(rand.num_comments))
+        ).set_footer(text = "Score: " + str(rand.score) + " | Upvote ratio: " + str(int(rand.upvote_ratio * 100)) 
+            + "% | Number of comments: " + str(rand.num_comments))
         if hasattr(rand, "post_hint") and ('video' in rand.post_hint):
             await ctx.send(rand.title + ":\n" + rand.url)
         else:
@@ -40,9 +44,9 @@ class fun(commands.Cog):
                 try: rand.url
                 except Exception:
                     l = []
-                    async for i in get_sub.hot(limit = 50): 
+                    async for i in get_sub.hot(limit = 50):
                         l.append(i); rand = random.choice(l)
-            except Exception:
+            except exceptions.BadRequest:
                 await ctx.send("`" + sub + "` is not a valid subreddit")
             else:
                 description = "[Post](" + rand.url + ") from r/" + sub
@@ -80,7 +84,8 @@ class fun(commands.Cog):
     #         else:
     #             if checkAnswer(msg):
     #                 a,b = checkAnswer(msg)
-    #                 await ctx.send(embed = Embed(title = "That is incorrect", description = "The correct answer was `" + fj[x] +"`, the flag of " + b + " is: "
+    #                 await ctx.send(embed = Embed(title = "That is incorrect", 
+    #                   description = "The correct answer was `" + fj[x] +"`, the flag of " + b + " is: "
     #                 ).set_image(url = "https://flagcdn.com/w320/" + a + ".png"))
     #             else:
     #                 await ctx.send("That is incorrect, the answer is `" + fj[x] + "`")
@@ -88,7 +93,8 @@ class fun(commands.Cog):
     @commands.command()
     async def joe(self, ctx, target : nextcord.User = None):
         async def get(self = self):
-            reddit = self.client.reddit; get_sub = await reddit.subreddit("copypasta"); rand = await get_sub.random()
+            reddit = self.client.reddit; get_sub = await reddit.subreddit("copypasta")
+            rand = await get_sub.random()
             return Embed(title = rand.title, description = rand.selftext, color = nextcord.Color.random())
         if not target:
             target = ctx.message.author
