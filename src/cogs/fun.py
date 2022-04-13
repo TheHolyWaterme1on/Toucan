@@ -103,11 +103,11 @@ class fun(commands.Cog):
             target = ctx.message.author
         embed = None
         while embed == None:
-            try: 
+            try:
                 embed = await get()
             except Exception:
                 continue
-        try: 
+        try:
             await target.send(embed = embed)
             await ctx.send("Message sent")
         except:
