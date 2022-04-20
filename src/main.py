@@ -1,13 +1,13 @@
 import os
 import asyncpraw
+import nextcord
 from nextcord.ext import commands
 
-cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.utility"]
-ids = [766423223595696198, 921103309526433843]
+DESC = "The best Discord bot"
 COMMAND_PREFIX = '?'
 client = commands.Bot(COMMAND_PREFIX)
 client.remove_command('help')
-
+cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.utility"]
 reddit_data = os.environ.get("REDDIT_API_DATA").split(",")
 client.reddit = asyncpraw.Reddit(
     client_id = reddit_data[0],
@@ -17,15 +17,41 @@ client.reddit = asyncpraw.Reddit(
     user_agent = reddit_data[4]
 )
 
-client.load_extension("cogs.slash")
-print("Initialised slash commands")
+class Toucan(commands.Bot):
+    def __init__(self):
+        allowed_mentions = nextcord.AllowedMentions(roles = True, everyone = False, users = True)
+        super().__init__(
+            description = DESC,
+            allowed_mentions = allowed_mentions,
+            enable_debug_events = True,
+        )
 
-@client.event
-async def on_ready():
-    for i in cogs:
-        client.load_extension(i)
-        print("Initialised cog: " + i)
-    print('Online')
-    client.rollout_application_commands
+    client.load_extension("cogs.slash")
+    print("Initialised slash commands")
+
+    @client.event
+    async def on_ready():
+        for i in cogs:
+            try: 
+                client.load_extension(i)
+                print(f"Initialised cog: {i}")
+            except:
+                print(f"{i} failed to load")
+        print('Online')
+        client.rollout_application_commands
+        uptime = nextcord.utils.utcnow()
+
+    @client.check
+    async def block_dms(ctx):
+        return ctx.guild is not None
+
+    @client.event
+    async def on_command_error(ctx, err):
+        if isinstance(err, commands.ArgumentParsingError) or isinstance(err, commands.MissingRequiredArgument):
+            await ctx.send(err)
+        if isinstance(err, commands.CommandOnCooldown):
+            await ctx.send("This command is on cooldown")
+        else:
+            print(err)
 
 client.run(os.environ.get("CLIENT_TOKEN"))

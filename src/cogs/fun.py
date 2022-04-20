@@ -38,6 +38,7 @@ class fun(commands.Cog):
         else:
             await ctx.send(embed = embed)
 
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command()
     async def reddit(self, ctx, sub = None):
         reddit = self.client.reddit
@@ -93,6 +94,7 @@ class fun(commands.Cog):
     #             else:
     #                 await ctx.send("That is incorrect, the answer is `" + fj[x] + "`")
 
+    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.command()
     async def joe(self, ctx, target : nextcord.User = None):
         async def get(self = self):

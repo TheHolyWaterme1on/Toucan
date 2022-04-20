@@ -42,7 +42,7 @@ class slash(commands.Cog):
 
     @nextcord.slash_command(name = "joe", description = "...", guild_ids = ids)
     async def joe(self, interaction : Interaction, target : nextcord.User):
-        async def get(self = self):
+        async def get(self = self) -> Embed:
             reddit = self.client.reddit; get_sub = await reddit.subreddit("copypasta"); rand = None
             while rand == None:
                 try: 

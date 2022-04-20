@@ -19,8 +19,8 @@ class utility(commands.Cog):
                 await ctx.send("Proper usage is `?setstatus <status>`")
 
     @commands.command(name = "invite", aliases = ["inv", "createinvite"])
-    async def invite(self, ctx, gid = None):
-        async def get_invite(guild_id):
+    async def invite(self, ctx, guild_id : int):
+        async def get_invite(guild_id) -> str:
             for i in self.client.get_guild(int(guild_id)).channels:
                 if isinstance(i, nextcord.channel.TextChannel):
                     link = await i.create_invite(max_age = 0, max_uses = 0)
