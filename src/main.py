@@ -2,7 +2,7 @@ import os
 import asyncpraw
 from nextcord.ext import commands
 
-cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.slash", "cogs.utility"]
+cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.utility"]
 ids = [766423223595696198, 921103309526433843]
 COMMAND_PREFIX = '?'
 client = commands.Bot(COMMAND_PREFIX)
@@ -17,6 +17,9 @@ client.reddit = asyncpraw.Reddit(
     user_agent = reddit_data[4]
 )
 
+client.load_extension("cogs.slash")
+print("Initialised slash commands")
+
 @client.event
 async def on_ready():
     for i in cogs:
@@ -24,5 +27,8 @@ async def on_ready():
         print("Initialised cog: " + i)
     print('Online')
     client.rollout_application_commands
+
+# @client.event
+# async def on_command_error(self, ctx, error):
 
 client.run(os.environ.get("CLIENT_TOKEN"))
