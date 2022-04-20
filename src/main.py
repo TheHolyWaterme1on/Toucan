@@ -3,7 +3,6 @@ import asyncpraw
 import nextcord
 from nextcord.ext import commands
 
-DESC = "The best Discord bot"
 COMMAND_PREFIX = '?'
 client = commands.Bot(COMMAND_PREFIX)
 client.remove_command('help')
@@ -21,9 +20,7 @@ class Toucan(commands.Bot):
     def __init__(self):
         allowed_mentions = nextcord.AllowedMentions(roles = True, everyone = False, users = True)
         super().__init__(
-            description = DESC,
-            allowed_mentions = allowed_mentions,
-            enable_debug_events = True,
+            allowed_mentions = allowed_mentions
         )
 
     client.load_extension("cogs.slash")
