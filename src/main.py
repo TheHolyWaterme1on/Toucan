@@ -28,7 +28,4 @@ async def on_ready():
     print('Online')
     client.rollout_application_commands
 
-# @client.event
-# async def on_command_error(self, ctx, error):
-
 client.run(os.environ.get("CLIENT_TOKEN"))
