@@ -26,7 +26,6 @@
 ### Math
 - [ ] Calculator
 - [x] Roman numeral converter
-- [ ] Mathler
 ---
 ### Images
 - [x] Dog pictures
