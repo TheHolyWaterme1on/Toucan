@@ -1,6 +1,6 @@
 # Toucan
 
-## New repository for the Toucan Discord bot
+### New repository for the Toucan Discord bot
 
 ## Planned commands:
 ### Maintenence
