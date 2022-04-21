@@ -10,14 +10,6 @@ class misc(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def clean(self, ctx, amount = 5):
-        if int(amount) < 100:
-            await ctx.channel.purge(limit = int(amount) + 1)
-            await ctx.send("Purged `" + str(amount) + "` messages", delete_after = 3)
-        else:
-            await ctx.send("Amount must be smaller than 100")
-
-    @commands.command()
     async def avatar(self, ctx, *,  target : nextcord.User = None):
         if target:
             await ctx.send(target.display_avatar)
@@ -84,7 +76,7 @@ class misc(commands.Cog):
             except:
                 await ctx.send("Something went wrong, make sure you spelled the country name correctly.\nDue to API issues, some countries are unavailable.")
 
-    @commands.command()
+    @commands.command(name = "translate", aliases = ["tr"] )
     async def translate(self, ctx, *, args):
         translator = Translator(service_urls = ['translate.googleapis.com'])
         tr = translator.translate(args, src = 'auto')

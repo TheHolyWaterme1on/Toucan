@@ -22,7 +22,7 @@ class Toucan(commands.Bot):
         super().__init__(
             allowed_mentions = allowed_mentions
         )
-
+        
     client.load_extension("cogs.slash")
     print("Initialised slash commands")
 

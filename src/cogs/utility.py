@@ -9,6 +9,14 @@ class utility(commands.Cog):
     async def ping(self, ctx):
         await ctx.send("Ping: " + (str(round(self.client.latency * 1000))) + "ms")
 
+    @commands.command(name = "clean", aliases = ["cl", "clear"])
+    async def clean(self, ctx, amount = 5):
+        if int(amount) < 100:
+            await ctx.channel.purge(limit = int(amount) + 1)
+            await ctx.send("Purged `" + str(amount) + "` messages", delete_after = 3)
+        else:
+            await ctx.send("Amount must be smaller than 100")
+
     @commands.command(name = "setstatus", aliases = ["status"])
     async def setstatus(self, ctx, *, msg):
         if await self.client.is_owner(ctx.author):
