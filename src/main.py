@@ -22,7 +22,7 @@ class Toucan(commands.Bot):
         super().__init__(
             allowed_mentions = allowed_mentions
         )
-        
+
     client.load_extension("cogs.slash")
     print("Initialised slash commands")
 
@@ -45,6 +45,8 @@ class Toucan(commands.Bot):
     async def on_command_error(ctx, err):
         if isinstance(err, commands.MissingRequiredArgument):
             await ctx.send('`' + '` '.join(str(err).split(' ', 1)))
+        if isinstance(err, commands.ArgumentParsingError):
+            await ctx.send(err)
         if isinstance(err, commands.CommandOnCooldown):
             await ctx.send("This command is on cooldown")
         else:
