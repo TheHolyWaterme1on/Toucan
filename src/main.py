@@ -37,7 +37,6 @@ class Toucan(commands.Bot):
                 print(f"{i} failed to load")
         print('Online')
         client.rollout_application_commands
-        uptime = nextcord.utils.utcnow()
 
     @client.check
     async def block_dms(ctx):
