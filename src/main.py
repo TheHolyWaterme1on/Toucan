@@ -1,4 +1,5 @@
 import os
+import re
 import asyncpraw
 import nextcord
 from nextcord.ext import commands
@@ -29,7 +30,7 @@ class Toucan(commands.Bot):
     @client.event
     async def on_ready():
         for i in cogs:
-            try: 
+            try:
                 client.load_extension(i)
                 print(f"Initialised cog: {i}")
             except:
@@ -44,8 +45,8 @@ class Toucan(commands.Bot):
 
     @client.event
     async def on_command_error(ctx, err):
-        if isinstance(err, commands.ArgumentParsingError) or isinstance(err, commands.MissingRequiredArgument):
-            await ctx.send(err)
+        if isinstance(err, commands.MissingRequiredArgument):
+            await ctx.send('`' + '` '.join(str(err).split(' ', 1)))
         if isinstance(err, commands.CommandOnCooldown):
             await ctx.send("This command is on cooldown")
         else:

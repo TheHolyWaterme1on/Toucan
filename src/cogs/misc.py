@@ -64,33 +64,30 @@ class misc(commands.Cog):
             await ctx.send("`" + inp + "` is not a valid numeral")
 
     @commands.command(name = "country", aliases = ["getcountry", "co"] )
-    async def country(self, ctx, inp = None):
-        if inp:
-            async with aiohttp.ClientSession() as s:
-                get = await s.get('https://restcountries.com/v3.1/name/' + inp.lower()); fj = await get.json(); 
-                try:
-                    fj = fj[0]
-                    embed = Embed(title = fj["name"]["official"], description = "[Flag](" + fj["flags"]["png"] + ") | [Coat of Arms](" + fj["coatOfArms"]["png"] + ") | [Google Maps](" + fj["maps"]["googleMaps"] + ")"
-                    ).add_field(name = "Capital", value = fj["capital"][0]
-                    ).add_field(name = "Continent", value = fj["continents"][0]
-                    ).add_field(name = "Currency", value = fj["currencies"][list(fj["currencies"])[0]]["name"]
-                    ).add_field(name = "Symbol", value = "`" + fj["cca2"] + "`"
-                    ).add_field(name = "Population", value = "`" + "{:,}".format(fj["population"]) + "`"
-                    ).add_field(name = "URL Extension", value = "`" + fj["tld"][0] + "`"
-                    ).add_field(name = "GINI", value = "`" + str(fj["gini"][list(fj["gini"])[-1]]) + "%`"
-                    ).add_field(name = "Postal Code", value = "`" + fj["postalCode"]["format"] + "`"
-                    ).add_field(name = "Is UN Member:", value = str(fj["unMember"])
-                    ).set_thumbnail(url = fj["flags"]["png"]).set_footer(text = "Demonyms: Male: " + fj["demonyms"]["eng"]["m"] + " | Female: " + fj["demonyms"]["eng"]["f"])
-                    await ctx.send(embed = embed)
-                except:
-                    await ctx.send("Something went wrong, make sure you spelled the country name correctly.\nDue to API issues, some countries are unavailable.")
-        else:
-            await ctx.send("Proper usage is `?country <country name>`")
+    async def country(self, ctx, country_name):
+        async with aiohttp.ClientSession() as s:
+            get = await s.get('https://restcountries.com/v3.1/name/' + country_name.lower()); fj = await get.json(); 
+            try:
+                fj = fj[0]
+                embed = Embed(title = fj["name"]["official"], description = "[Flag](" + fj["flags"]["png"] + ") | [Coat of Arms](" + fj["coatOfArms"]["png"] + ") | [Google Maps](" + fj["maps"]["googleMaps"] + ")"
+                ).add_field(name = "Capital", value = fj["capital"][0]
+                ).add_field(name = "Continent", value = fj["continents"][0]
+                ).add_field(name = "Currency", value = fj["currencies"][list(fj["currencies"])[0]]["name"]
+                ).add_field(name = "Symbol", value = "`" + fj["cca2"] + "`"
+                ).add_field(name = "Population", value = "`" + "{:,}".format(fj["population"]) + "`"
+                ).add_field(name = "URL Extension", value = "`" + fj["tld"][0] + "`"
+                ).add_field(name = "GINI", value = "`" + str(fj["gini"][list(fj["gini"])[-1]]) + "%`"
+                ).add_field(name = "Postal Code", value = "`" + fj["postalCode"]["format"] + "`"
+                ).add_field(name = "Is UN Member:", value = str(fj["unMember"])
+                ).set_thumbnail(url = fj["flags"]["png"]).set_footer(text = "Demonyms: Male: " + fj["demonyms"]["eng"]["m"] + " | Female: " + fj["demonyms"]["eng"]["f"])
+                await ctx.send(embed = embed)
+            except:
+                await ctx.send("Something went wrong, make sure you spelled the country name correctly.\nDue to API issues, some countries are unavailable.")
 
     @commands.command()
-    async def translate(self, ctx, *args):
+    async def translate(self, ctx, *, args):
         translator = Translator(service_urls = ['translate.googleapis.com'])
-        tr = translator.translate(' '.join(args), src = 'auto')
+        tr = translator.translate(args, src = 'auto')
         if len(tr.text) < 4000:
             await ctx.send(embed = Embed(
                 title = "Translator", 
