@@ -1,8 +1,9 @@
-import nextcord
-from nextcord.ext import commands
-from nextcord import Embed
 import re
 import aiohttp
+import nextcord
+from googletrans import Translator
+from nextcord.ext import commands
+from nextcord import Embed
 
 class misc(commands.Cog): 
     def __init__(self, client):
@@ -85,6 +86,20 @@ class misc(commands.Cog):
                     await ctx.send("Something went wrong, make sure you spelled the country name correctly.\nDue to API issues, some countries are unavailable.")
         else:
             await ctx.send("Proper usage is `?country <country name>`")
+
+    @commands.command()
+    async def translate(self, ctx, *args):
+        translator = Translator(service_urls = ['translate.googleapis.com'])
+        tr = translator.translate(' '.join(args), src = 'auto')
+        if len(tr.text) < 4000:
+            await ctx.send(embed = Embed(
+                title = "Translator", 
+                description = "Message translated from `" + tr.src + "` to `en` as:```" + tr.text + "```", 
+                color = nextcord.Color.yellow()
+
+            ))
+        else:
+            await ctx.send("That message is too long to translate")
         
 def setup(client):
     client.add_cog(misc(client))
