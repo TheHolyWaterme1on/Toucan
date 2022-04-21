@@ -1,5 +1,7 @@
 # Toucan
 
+## New repository for the Toucan Discord bot
+
 ## Planned commands:
 ### Maintenence
 - [x] Ping
