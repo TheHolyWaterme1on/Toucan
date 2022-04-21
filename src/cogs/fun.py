@@ -113,7 +113,7 @@ class fun(commands.Cog):
             await ctx.send("Message failed to send, target might have their DMs closed.")
 
     @commands.command()
-    async def xkcd(self, ctx, num = 0):
+    async def xkcd(self, ctx, num = None):
         async with aiohttp.ClientSession() as s:
             if not num:
                 num = random.randint(0,2000)
