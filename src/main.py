@@ -13,7 +13,6 @@ def get_prefix(client, message):
     return prefix
 
 command_prefix = get_prefix
-
 client = commands.Bot(command_prefix)
 client.remove_command('help')
 cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.utility"]
@@ -74,4 +73,5 @@ class Toucan(commands.Bot):
                 await ctx.send("Prefix must be 4 characters or less")
         else:
             await ctx.send("Prefix cannot contain quotation marks")
+
 client.run(os.environ.get("CLIENT_TOKEN"))

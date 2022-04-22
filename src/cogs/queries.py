@@ -14,7 +14,7 @@ class queries:
 
     def db_get(id):
         with connection:
-            c.execute('SELECT * FROM guilds WHERE id=:id', {'id' : id})
+            c.execute("SELECT * FROM guilds WHERE id=:id", {'id' : id})
             return c.fetchone()
         
     def db_del(id):
@@ -23,6 +23,6 @@ class queries:
 
     def db_update(id, prefix):
         with connection:
-            c.execute("""UPDATE guilds SET prefix = :prefix WHERE id = :id""", {'id' : id, 'prefix' : prefix})
+            c.execute("UPDATE guilds SET prefix=:prefix WHERE id=:id", {'id' : id, 'prefix' : prefix})
 
 connection.commit()
