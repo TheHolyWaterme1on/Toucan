@@ -1,10 +1,20 @@
+from cogs.queries import queries as q
+import re
 import os
 import asyncpraw
 import nextcord
 from nextcord.ext import commands
 
-COMMAND_PREFIX = '?'
-client = commands.Bot(COMMAND_PREFIX)
+def get_prefix(client, message):
+    try:
+        prefix = q.db_get(str(message.guild.id))[1]
+    except TypeError:
+        return '?'
+    return prefix
+
+command_prefix = get_prefix
+
+client = commands.Bot(command_prefix)
 client.remove_command('help')
 cogs = ["cogs.img", "cogs.misc", "cogs.fun", "cogs.utility"]
 reddit_data = os.environ.get("REDDIT_API_DATA").split(",")
@@ -29,11 +39,11 @@ class Toucan(commands.Bot):
     @client.event
     async def on_ready():
         for i in cogs:
-            try:
+            # try:
                 client.load_extension(i)
                 print(f"Initialised cog: {i}")
-            except:
-                print(f"{i} failed to load")
+            # except:
+            #     print(f"{i} failed to load")
         print('Online')
         client.rollout_application_commands
 
@@ -45,11 +55,23 @@ class Toucan(commands.Bot):
     async def on_command_error(ctx, err):
         if isinstance(err, commands.MissingRequiredArgument):
             await ctx.send('`' + '` '.join(str(err).split(' ', 1)))
-        if isinstance(err, commands.ArgumentParsingError):
-            await ctx.send(err)
-        if isinstance(err, commands.CommandOnCooldown):
+        elif isinstance(err, commands.ExpectedClosingQuoteError):
+            await ctx.send("Command arguments cannot contain quotation marks")
+        elif isinstance(err, commands.ArgumentParsingError):
+            print(err)
+        elif isinstance(err, commands.CommandOnCooldown):
             await ctx.send("This command is on cooldown")
         else:
-            print(err)
-
+            raise err
+    
+    @client.command()
+    async def setprefix(ctx, prefix : str):
+        if re.search(r'\'|\"', prefix) is None and prefix != '':
+            if len(prefix) < 5:     
+                q.db_set(str(ctx.guild.id), prefix)
+                await ctx.send("Prefix has been set to: `{}`".format(prefix))
+            else:
+                await ctx.send("Prefix must be 4 characters or less")
+        else:
+            await ctx.send("Prefix cannot contain quotation marks")
 client.run(os.environ.get("CLIENT_TOKEN"))

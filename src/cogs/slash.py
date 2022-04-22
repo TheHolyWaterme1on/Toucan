@@ -1,3 +1,4 @@
+from main import q
 import nextcord
 from nextcord import Interaction, Embed
 from nextcord.ext import commands
@@ -16,7 +17,16 @@ class slash(commands.Cog):
 
     @nextcord.slash_command(name = "prefix", description = "Sends bot prefix", guild_ids = ids)
     async def prefix(self, interaction : Interaction):
-        await interaction.response.send_message("The bot's prefix is `?`")
+        try:
+            prefix = q.db_get(interaction.guild_id)[1]
+        except TypeError:
+            prefix = '?'
+        await interaction.response.send_message("The bot's prefix is `{}`".format(prefix))
+    
+    @nextcord.slash_command(name = 'resetprefix', description = "Resets bot's prefix to ?", guild_ids = ids)
+    async def resetprefix(self, interaction : Interaction):
+        q.db_del(interaction.guild_id)
+        await interaction.response.send_message("Prefix reset to `?`")
 
     @nextcord.slash_command(name = "country", description = "Sends data about a country", guild_ids = ids)
     async def country(self, interaction : Interaction, country_name):
@@ -37,7 +47,7 @@ class slash(commands.Cog):
                     ).add_field(name = "Is UN Member:", value = str(fj["unMember"])
                     ).set_thumbnail(url = fj["flags"]["png"]).set_footer(text = "Demonyms: Male: " + fj["demonyms"]["eng"]["m"] + " | Female: " + fj["demonyms"]["eng"]["f"])
                 )
-            except BaseException:
+            except Exception:
                 await interaction.response.send_message("Something went wrong, make sure you spelled the country name correctly.\nDue to API issues, some countries are unavailable.")
 
     @nextcord.slash_command(name = "joe", description = "...", guild_ids = ids)
