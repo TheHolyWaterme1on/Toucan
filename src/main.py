@@ -38,11 +38,11 @@ class Toucan(commands.Bot):
     @client.event
     async def on_ready():
         for i in cogs:
-            # try:
+            try:
                 client.load_extension(i)
                 print(f"Initialised cog: {i}")
-            # except:
-            #     print(f"{i} failed to load")
+            except Exception as e:
+                print(f"{i} failed to load\n" + e)
         print('Online')
         client.rollout_application_commands
 
