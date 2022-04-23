@@ -62,7 +62,7 @@ class Toucan(commands.Bot):
             await ctx.send("This command is on cooldown")
         else:
             raise err
-    
+
     @client.command()
     async def setprefix(ctx, prefix : str):
         if re.search(r'\'|\"', prefix) is None and prefix != '':

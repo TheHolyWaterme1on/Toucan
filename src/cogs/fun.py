@@ -11,12 +11,9 @@ class fun(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def say(self, ctx, *, msg = None):
-        if msg:
-            await ctx.message.delete()
-            await ctx.send(msg)
-        else:
-            await ctx.send("Proper usage is `?say <message>`")
+    async def say(self, ctx, *, msg):
+        await ctx.message.delete()
+        await ctx.send(msg)
 
     @commands.command(name = "dice", aliases = ["roll"])
     async def dice(self, ctx, num : int = 6):
