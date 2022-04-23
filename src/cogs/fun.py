@@ -6,6 +6,7 @@ from nextcord.ext import commands
 from nextcord import Embed
 from asyncprawcore import exceptions
 
+
 class fun(commands.Cog):
     def __init__(self, client):
         self.client = client

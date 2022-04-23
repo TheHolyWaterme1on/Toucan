@@ -5,6 +5,7 @@ import asyncpraw
 import nextcord
 from nextcord.ext import commands
 
+
 def get_prefix(client, message):
     try:
         prefix = q.db_get(str(message.guild.id))[1]

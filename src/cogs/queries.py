@@ -1,5 +1,6 @@
 import sqlite3
 
+
 connection = sqlite3.connect(':memory:')
 c = connection.cursor()
 

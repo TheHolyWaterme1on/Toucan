@@ -3,6 +3,7 @@ from nextcord import Embed
 import random
 import aiohttp
 
+
 class img(commands.Cog):
     def __init__(self, client):
         self.client = client

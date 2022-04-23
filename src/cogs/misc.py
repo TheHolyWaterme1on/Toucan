@@ -5,6 +5,7 @@ from googletrans import Translator
 from nextcord.ext import commands
 from nextcord import Embed
 
+
 class misc(commands.Cog): 
     def __init__(self, client):
         self.client = client
