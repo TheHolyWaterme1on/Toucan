@@ -9,20 +9,20 @@ class queries:
         prefix string
     )""")
 
-    def db_set(gid, prefix):
-        c.execute("INSERT INTO guilds VALUES (:id, :prefix)", {'id':gid, 'prefix':prefix})
+    def db_set(id_, prefix):
+        c.execute("INSERT INTO guilds VALUES (:id, :prefix)", {'id':id_, 'prefix':prefix})
 
-    def db_get(gid):
+    def db_get(id_):
         with connection:
-            c.execute("SELECT * FROM guilds WHERE id=:id", {'id' : gid})
+            c.execute("SELECT * FROM guilds WHERE id=:id", {'id' : id_})
             return c.fetchone()
         
-    def db_del(gid):
+    def db_del(id_):
         with connection:
-            c.execute("DELETE from guilds where id={}".format(gid))
+            c.execute("DELETE from guilds where id={}".format(id_))
 
-    def db_update(gid, prefix):
+    def db_update(id_, prefix):
         with connection:
-            c.execute("UPDATE guilds SET prefix=:prefix WHERE id=:id", {'id' : gid, 'prefix' : prefix})
+            c.execute("UPDATE guilds SET prefix=:prefix WHERE id=:id", {'id' : id_, 'prefix' : prefix})
 
 connection.commit()
