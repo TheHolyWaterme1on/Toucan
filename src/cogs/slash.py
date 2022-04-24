@@ -19,15 +19,26 @@ class slash(commands.Cog):
     @nextcord.slash_command(name = "prefix", description = "Sends bot prefix", guild_ids = ids)
     async def prefix(self, interaction : Interaction):
         try:
-            prefix = q.db_get(interaction.guild_id)[1]
+            prefix = q.db_get('prefixes', interaction.guild_id)[1]
         except TypeError:
             prefix = '?'
         await interaction.response.send_message("The bot's prefix is `{}`".format(prefix))
     
     @nextcord.slash_command(name = 'resetprefix', description = "Resets bot's prefix to ?", guild_ids = ids)
     async def resetprefix(self, interaction : Interaction):
-        q.db_del(interaction.guild_id)
+        q.db_del('prefixes', interaction.guild_id)
         await interaction.response.send_message("Prefix reset to `?`")
+
+    @nextcord.slash_command(name = "setprefix", description = "Sets the bot's prefix", guild_ids = ids)
+    async def setprefix(self, interaction : Interaction, prefix : str):
+        if re.search(r'[\'\"1-9]', prefix) is None and prefix != '':
+            if len(prefix) < 5:     
+                q.db_set('prefixes', str(interaction.guild.id), prefix)
+                await interaction.response.send_message("Prefix has been set to: `{}`".format(prefix))
+            else:
+                await interaction.response.send_message("Prefix must be 4 characters or less")
+        else:
+            await interaction.response.send_message("Prefix cannot contain quotation marks or a number")
 
     @nextcord.slash_command(name = "country", description = "Sends data about a country", guild_ids = ids)
     async def country(self, interaction : Interaction, country_name):

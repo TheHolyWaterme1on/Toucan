@@ -8,7 +8,7 @@ from nextcord.ext import commands
 
 def get_prefix(client, message):
     try:
-        prefix = q.db_get(str(message.guild.id))[1]
+        prefix = q.db_get('prefixes', str(message.guild.id))[1]
     except TypeError:
         return '?'
     return prefix
@@ -66,13 +66,13 @@ class Toucan(commands.Bot):
 
     @client.command()
     async def setprefix(ctx, prefix : str):
-        if re.search(r'\'|\"', prefix) is None and prefix != '':
+        if re.search(r'[\'\"1-9]', prefix) is None and prefix != '':
             if len(prefix) < 5:     
-                q.db_set(str(ctx.guild.id), prefix)
+                q.db_set('prefixes', str(ctx.guild.id), prefix)
                 await ctx.send("Prefix has been set to: `{}`".format(prefix))
             else:
                 await ctx.send("Prefix must be 4 characters or less")
         else:
-            await ctx.send("Prefix cannot contain quotation marks")
+            await ctx.send("Prefix cannot contain quotation marks or a number")
 
 client.run(os.environ.get("CLIENT_TOKEN"))
