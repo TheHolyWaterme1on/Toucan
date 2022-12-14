@@ -1,2 +1,2 @@
 # Toucan
-This project is uncomplete but is no longer being updated
+This project is incomplete but is no longer being updated
